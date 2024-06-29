@@ -6,7 +6,7 @@ function SlowComponent() {
   return (
     <ul>
       {words.map((word, i) => (
-        <li key={i}>
+        <li key={word}>
           {i}
           :
           {word}
@@ -21,7 +21,7 @@ export default function Test() {
   return (
     <div>
       <h1>Slow counter?!?</h1>
-      <button onClick={() => setCount((c) => c + 1)}>
+      <button type="button" onClick={() => setCount((c) => c + 1)}>
         Increase:
         {count}
       </button>
