@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { usePosts, PostProvider } from './PostProvider';
-import Test from './Test';
 
 function createRandomPost() {
   return {
@@ -80,7 +79,7 @@ function Results() {
   );
 }
 
-function Main() {
+function MemoizeMain() {
   return (
     <main>
       <FormAddPost />
@@ -88,6 +87,8 @@ function Main() {
     </main>
   );
 }
+
+const Main = memo(MemoizeMain);
 
 function Posts() {
   return (
@@ -139,12 +140,11 @@ function List() {
           </li>
         ))}
       </ul>
-      <Test />
     </>
   );
 }
 
-function Archive() {
+function MemoizeArchive() {
   const { onAddPost } = usePosts();
   const [posts] = useState(() => Array.from({ length: 5000 }, () => createRandomPost()));
 
@@ -180,8 +180,12 @@ function Archive() {
   );
 }
 
-function Footer() {
+const Archive = memo(MemoizeArchive);
+
+function MemoizeFooter() {
   return <footer>&copy; by The Atomic Blog ✌️</footer>;
 }
+
+const Footer = memo(MemoizeFooter);
 
 export default App;
