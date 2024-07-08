@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { usePosts, PostProvider } from './PostProvider';
+import Test from './Test';
 
 function createRandomPost() {
   return {
@@ -121,7 +122,7 @@ function FormAddPost() {
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post body"
       />
-      <button type="button">Add post</button>
+      <button type="submit">Add post</button>
     </form>
   );
 }
@@ -129,14 +130,17 @@ function FormAddPost() {
 function List() {
   const { posts } = usePosts();
   return (
-    <ul>
-      {posts.map((post) => (
-        <li key={`${post}`}>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {posts.map((post) => (
+          <li key={`${post.body}`}>
+            <h3>{post.title}</h3>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
+      <Test />
+    </>
   );
 }
 
@@ -156,7 +160,7 @@ function Archive() {
       {showArchive && (
         <ul>
           {posts.map((post) => (
-            <li key={post}>
+            <li key={post.title}>
               <p>
                 <strong>
                   {post.title}
