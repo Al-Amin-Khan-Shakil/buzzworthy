@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { usePosts, PostProvider } from './PostProvider';
 
@@ -79,7 +79,7 @@ function Results() {
   );
 }
 
-function Main() {
+function MemoizeMain() {
   return (
     <main>
       <FormAddPost />
@@ -87,6 +87,8 @@ function Main() {
     </main>
   );
 }
+
+const Main = memo(MemoizeMain);
 
 function Posts() {
   return (
@@ -121,7 +123,7 @@ function FormAddPost() {
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post body"
       />
-      <button type="button">Add post</button>
+      <button type="submit">Add post</button>
     </form>
   );
 }
@@ -129,18 +131,20 @@ function FormAddPost() {
 function List() {
   const { posts } = usePosts();
   return (
-    <ul>
-      {posts.map((post) => (
-        <li key={`${post}`}>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {posts.map((post) => (
+          <li key={`${post.body}`}>
+            <h3>{post.title}</h3>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
-function Archive() {
+function MemoizeArchive() {
   const { onAddPost } = usePosts();
   const [posts] = useState(() => Array.from({ length: 5000 }, () => createRandomPost()));
 
@@ -156,7 +160,7 @@ function Archive() {
       {showArchive && (
         <ul>
           {posts.map((post) => (
-            <li key={post}>
+            <li key={post.title}>
               <p>
                 <strong>
                   {post.title}
@@ -176,8 +180,12 @@ function Archive() {
   );
 }
 
-function Footer() {
+const Archive = memo(MemoizeArchive);
+
+function MemoizeFooter() {
   return <footer>&copy; by The Atomic Blog ✌️</footer>;
 }
+
+const Footer = memo(MemoizeFooter);
 
 export default App;

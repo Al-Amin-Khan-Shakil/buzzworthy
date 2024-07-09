@@ -6,7 +6,7 @@ function SlowComponent() {
   return (
     <ul>
       {words.map((word, i) => (
-        <li key={word}>
+        <li key={`${word}${`x${i}`}`}>
           {i}
           :
           {word}
@@ -16,7 +16,7 @@ function SlowComponent() {
   );
 }
 
-export default function Test() {
+function Counter({ children }) {
   const [count, setCount] = useState(0);
   return (
     <div>
@@ -25,7 +25,15 @@ export default function Test() {
         Increase:
         {count}
       </button>
-      <SlowComponent />
+      {children}
     </div>
+  );
+}
+
+export default function Test() {
+  return (
+    <Counter>
+      <SlowComponent />
+    </Counter>
   );
 }
